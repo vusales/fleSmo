@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-// let schema = mongoose.Schema; 
 
 var BannerSchema = new mongoose.Schema({
     intro: String , 
