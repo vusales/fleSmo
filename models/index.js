@@ -21,7 +21,7 @@ const dBase = [
                     // file: 'uploadFile',
                 },
                 uploadPath: (record, filename) => (
-                    `localhost:3002/uploads/${record.id()}/${filename}`
+                    `/${filename}`
                 ),
                 validation: {
                     mimeTypes: [
