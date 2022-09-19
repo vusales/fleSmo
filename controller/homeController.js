@@ -1,10 +1,26 @@
 const Banner =  require("../models/Banner"); 
+const InfoCards =  require("../models/InfoCards"); 
+const Subscriptions = require("../models/Subscriptions");
+
+
+const getHomePageContent = async (req, res) => {
+    const banners =  await Banner.find() ; 
+    const infoCards = await InfoCards.find(); 
+    const subscriptions = await Subscriptions.find(); 
+
+    res.send({data : {
+        banners , 
+        infoCards ,
+        subscriptions ,
+    }});
+}
 
 const getBannerData = async (req , res ) => {
     const banners =  await Banner.find() ; 
     res.send({data : banners });
 }
 
+// remove this controller function after all
 const seedBannerData = async (req , res) => {
     Banner.deleteMany();
     Banner.insertMany([
@@ -29,7 +45,14 @@ const seedBannerData = async (req , res) => {
     res.send("Ok");
 }
 
+const getInfoContainersData = async (req , res ) => {
+    const info =  await InfoCards.find() ; 
+    res.send({data : info });
+}
+
 module.exports = {
+    getHomePageContent ,
     getBannerData , 
     seedBannerData,
+    getInfoContainersData ,
 }
