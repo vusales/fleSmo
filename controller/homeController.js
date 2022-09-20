@@ -7,7 +7,6 @@ const {
 const WhyChooseUs = require("../models/WhyChooseUs"); 
 const SiteStatistics =  require("../models/SiteStatistic");
 
-
 const getHomePageContent = async (req, res) => {
     const banners =  await Banner.find() ; 
     const infoCards = await InfoCards.find(); 
@@ -26,11 +25,7 @@ const getHomePageContent = async (req, res) => {
 
 // const sendSubscriptionById = async (req, res) => {
 //     const productId =  req.params.id ; 
-//     const subscriptions =  await Subscriptions.find().populate({
-//        ref: SubsModel ,
-//        match: { _id: productId } ,
-//        strictPopulate: true ,
-//     }); 
+// const subscriptions =  await Subscriptions.find().populate("subscriptions"); 
 //     console.log("subscriptions" , subscriptions );
 //     res.send({data : subscriptions });
 // }
@@ -75,30 +70,30 @@ const seedBannerData = async (req , res) => {
     //     }, 
     // ]); 
 
+    SiteStatistics.deleteMany();
+
     SiteStatistics.insertMany([
         { 
             icon: "icon1" , 
-            amount: 5 , 
+            amount: 435463 , 
             description: "smt msjjf"
         }, 
         { 
             icon: "icon2" , 
-            amount: 5 , 
+            amount: 567465 , 
             description: "smt msjjf"
         }, 
         { 
             icon: "icon3" , 
-            amount: 5 , 
+            amount: 4534654 , 
             description: "smt msjjf"
         },
         { 
             icon: "icon3" , 
-            amount: 5 , 
+            amount: 44524, 
             description: "smt msjjf"
         },
     ]); 
-
-
     res.send("Ok");
 }
 
