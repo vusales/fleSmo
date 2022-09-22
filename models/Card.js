@@ -31,9 +31,6 @@ const CardSchema =  mongoose.Schema({
     excerpt:{
         type: String , 
     }, 
-    introDescription:{
-        type: String , 
-    },
     options:{type: mongoose.Schema.Types.ObjectId , ref: "ProductOptions" }, 
     promotions: [PromotionSchema], 
 }); 

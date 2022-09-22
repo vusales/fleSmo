@@ -37,6 +37,9 @@ const ProductOptionsSchema =  mongoose.Schema({
     anouncementText:{
         type: String , 
     }, 
+    introDescription:{
+        type: String , 
+    },
     productFeatures : {
         type: [ProductFeaturesSchema] , 
     },
