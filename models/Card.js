@@ -25,7 +25,7 @@ const CardSchema =  mongoose.Schema({
     link: {
         type: String
     } ,
-    options:  [{type: mongoose.Schema.Types.ObjectId , ref: "ProductOptions" }]  , 
+    options:  {type: mongoose.Schema.Types.ObjectId , ref: "ProductOptions" }  , 
     promotions: [PromotionSchema] , 
 }); 
 

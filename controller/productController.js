@@ -56,26 +56,27 @@ const getProducts =  async (req ,res) => {
     try {
         const products = await Card.find({}).populate("options").exec(); 
         res.send({
-            data: products
+            products
         });
     }catch(err){
         console.log("getProducts error" ,  {err}); 
-        res.send({data:[]}); 
+        res.send({products:[]}); 
     }
 }
 
 const getProductOptionsById = async (req, res) => {
     try{
-        let productId =  req.params.id ; 
-        console.log("n bkds" ,  productId );
-        const result =  await ProductOptions.findById(productId).exec(); 
-        res.send({
-            data: result , 
-        }); 
-
+        if(req.body.id){
+            let productId = req.body.id ; 
+            // const result =  await ProductOptions.findById(productId).exec(); 
+            const result =  await Card.findById(productId).populate("options").exec(); 
+            res.send({
+                productById: result , 
+            }); 
+        }
     }catch(err){
         console.log("getProductOptionsById error" ,  {err}); 
-        res.send({data:[]}); 
+        res.send({productById:[]}); 
     }
 }
 
