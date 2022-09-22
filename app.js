@@ -1,4 +1,3 @@
-
 const express = require('express');
 const routeSetup = require("./setup/routes"); 
 const databaseSetup = require("./setup/db"); 
@@ -23,5 +22,3 @@ databaseSetup(app)
     console.log("Db connection eror") ; 
     process.exit(1); 
 });
-
-

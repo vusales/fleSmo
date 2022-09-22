@@ -1,10 +1,17 @@
 const mainRoute =  require("./home/main");
-const bannerRoute =  require("./home/banner"); 
+const homeRoute = require("./home/index");
+const catalogRoute = require("./catalog/index");
+const productRoute = require("./product/index"); 
 
 const applyRoutes = app => {
     /** Home public */
     app.use("" , mainRoute);
-    app.use('/api/home', bannerRoute);
+    // i will remove this after connected home to front
+    app.use('/api/home', homeRoute);
+    // Catalogs
+    app.use('/api/catalog', catalogRoute);
+    // Products 
+    app.use("/api/products" , productRoute ); 
 };
 
 module.exports = applyRoutes;
