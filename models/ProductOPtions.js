@@ -31,7 +31,12 @@ const ProductOptionsSchema =  mongoose.Schema({
     productDescription: {
         type: String , 
     }, 
-
+    productDescription: {
+        type: String , 
+    },
+    anouncementText:{
+        type: String , 
+    }, 
     productFeatures : {
         type: [ProductFeaturesSchema] , 
     },
@@ -43,4 +48,4 @@ const ProductOptions =  mongoose.model("ProductOptions" , ProductOptionsSchema )
 module.exports =  {
     ProductOptions, 
     ProductFeature ,
-} ; 
+}; 

@@ -19,14 +19,23 @@ const CardSchema =  mongoose.Schema({
     price:{ 
         type : Number 
     },
-    description:  {
+    discountPrice:{ 
+        type : Number 
+    },
+    description:{
         type: String
-    } , 
-    link: {
+    }, 
+    link:{
         type: String
-    } ,
-    options:  {type: mongoose.Schema.Types.ObjectId , ref: "ProductOptions" }  , 
-    promotions: [PromotionSchema] , 
+    },
+    excerpt:{
+        type: String , 
+    }, 
+    introDescription:{
+        type: String , 
+    },
+    options:{type: mongoose.Schema.Types.ObjectId , ref: "ProductOptions" }, 
+    promotions: [PromotionSchema], 
 }); 
 
 const Card =  mongoose.model("Card" , CardSchema ); 
