@@ -13,5 +13,5 @@ var BannerSchema = new mongoose.Schema({
 });
 
 var Banner = mongoose.model("banner" , BannerSchema );
-module.exports =  Banner ; 
+module.exports = Banner; 
 

@@ -19,5 +19,4 @@ router.get("/home" , (req , res) => getHomePageContent(req , res) );
 router.get("/seed", (req , res) => seedBannerData(req , res) );
 router.get("/banner" , (req , res) => getBannerData(req , res) );
 
-
 module.exports = router;

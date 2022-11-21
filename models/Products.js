@@ -9,13 +9,13 @@ const PromotionSchema =  mongoose.Schema({
     }
 }); 
 
-const CardSchema =  mongoose.Schema({
+const ProductSchema =  mongoose.Schema({
     image: {
         type: String
-    } , 
+    }, 
     title:  {
         type: String
-    } , 
+    }, 
     price:{ 
         type : Number 
     },
@@ -31,15 +31,16 @@ const CardSchema =  mongoose.Schema({
     excerpt:{
         type: String , 
     }, 
-    options:{type: mongoose.Schema.Types.ObjectId , ref: "ProductOptions" }, 
+    options: [{type: mongoose.Schema.Types.ObjectId , ref: "ProductOptions"}], 
     promotions: [PromotionSchema], 
+    categories: [{type: mongoose.Schema.Types.ObjectId , ref: "Categories"}], 
 }); 
 
-const Card =  mongoose.model("Card" , CardSchema ); 
-const Promotion =  mongoose.model("Promotion" , PromotionSchema ); 
+const Product =  mongoose.model("Product", ProductSchema ); 
+const Promotion =  mongoose.model("Promotion" , PromotionSchema); 
 
 module.exports = 
 {
-    Card, 
+    Product, 
     Promotion, 
 }; 

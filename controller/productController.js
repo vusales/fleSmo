@@ -1,50 +1,77 @@
 const {
-    Card , 
+    Product , 
     Promotion ,
-}=  require("../models/Card"); 
+}=  require("../models/Products"); 
 const {
     ProductOptions , 
     ProductFeature ,
 } = require("../models/ProductOPtions");
+const {
+    Category , 
+    SubCatgory , 
+} = require("../models/Category"); 
 
 const createSeed = () => {
     const newProductFeature = new ProductFeature({
-        icon: "" , 
-        title: "someFeature" , 
-        description: "some description about product" , 
+        icon: "someIcon" , 
+        title: "someFeature Twitter" , 
+        description: "some description about Twitter Twitter" , 
     }); 
     const newProductOptions =  new ProductOptions({
-        title: "OptionsTitle" ,
-        price: 40 , 
+        title: "OPop" ,
+        price: 855 , 
         serviceName: "likes" ,  
-        serviceAmount: "1000", 
-        serviceIncreasementStep: "10" , 
+        serviceAmount: "4000" , 
+        serviceIncreasementStep: "600" , 
         productDescription: "absjghduj hagvujhasb gyasdh uyghaisjuiy9q ouiit778 ter6q7wtf", 
         productFeatures : [] , 
     }); 
-    newProductFeature.save() ;
-    newProductOptions.productFeatures.push(newProductFeature);
-    newProductOptions.save();
-
-    const newCard = new Card({
-        image:"iNSTAGRAM IMG" , 
-        title: "instagram" , 
-        price:70,
+    
+    const newProduct = new Product({
+        image:"Twitter IMG" , 
+        title: "Twitter" , 
+        price:90,
         description: "lorem lorem lorem lorem", 
         link: "",
-        promotions: [] , 
-        options:  []  , 
+        promotions: [], 
+        options:  [], 
+        categories : [], 
     }); 
 
     const newProm =  new Promotion({
-        promotion: "string" , 
-        color: "red" , 
+        promotion: "Twitter string" , 
+        color: "green" , 
     }); 
 
+    const newCategory =  new Category({
+        icon: "icon.png" , 
+        categoryName: "Twitter" , 
+        link: "" ,
+        subCategories : [] , 
+    })
+
+    const subCategories =  new SubCatgory({
+        icon: "Sub_icon", 
+        categoryName: "subCatalogName_2_Twitter", 
+        link: "subCat_someLink_3",
+    }); 
+
+    // product.categories key
+    subCategories.save(); 
+    newCategory.subCategories.push(subCategories) ; 
+    newCategory.save();
+    // product.options key
+    newProductFeature.save() ;
+    newProductOptions.productFeatures.push(newProductFeature);
+    newProductOptions.save();
+    // product.promotion key
     newProm.save(); 
-    newCard.promotions.push(newProm); 
-    newCard.options.push(newProductOptions); 
-    newCard.save();
+    // base Product model key
+    newProduct.promotions.push(newProm); 
+    newProduct.options.push(newProductOptions); 
+    newProduct.categories.push(newCategory); 
+    newProduct.save();
+
 }
 
 const seed = async (req , res) => {
@@ -54,7 +81,7 @@ const seed = async (req , res) => {
 
 const getProducts =  async (req ,res) => {
     try {
-        const products = await Card.find({}).populate("options").exec(); 
+        const products = await Product.find({}).populate("options").populate("categories").exec(); 
         res.send({
             products
         });
@@ -69,21 +96,61 @@ const getProductOptionsById = async (req, res) => {
         if(req.body.id){
             let productId = req.body.id ; 
             // const result =  await ProductOptions.findById(productId).exec(); 
-            const result =  await Card.findById(productId).populate("options").exec(); 
+            const result =  await Product.findById(productId).populate("options").populate("categories").exec(); 
             res.send({
                 productById: result , 
             }); 
         }
     }catch(err){
-        console.log("getProductOptionsById error" ,  {err}); 
-        res.send({productById:[]}); 
+        console.log("getProductOptionsById error" , {err}); 
+        res.send({products: []}); 
     }
 }
+
+const filter = async (req , res) => {
+    try {
+        // filter works with category name  and subcategory id 
+        const {category , subCategoryId } =  req.query ; 
+        const products =  await Product.find().populate("options").populate({ 
+            path: 'categories',
+            populate: {
+                path: 'subCategories',
+                model: 'SubCategories'
+            } 
+        });
+
+        if(products.length) {
+            let filteredProduct =  products.map(( product , index )=> {
+                if(
+                    category 
+                    && product.categories[0].categoryName?.toLowerCase().trim() === category.toLowerCase().trim() 
+                ){ 
+                    return product;   
+                }else if(
+                    subCategoryId 
+                    && 
+                    product.categories[0].subCategories?.filter((item) => item?._id.toString() === subCategoryId ).length
+                ){
+                    return product;   
+                }
+            }).filter((item) => item !== undefined );
+            res.send({
+                products: filteredProduct 
+            }); 
+        }
+        
+    }catch(err){
+        console.log("filterByCategories err" ,  err ); 
+        res.send({products:[]}); 
+    }
+}
+
 
 module.exports = {
     seed , 
     getProducts ,
     getProductOptionsById ,
+    filter , 
 }
 
 

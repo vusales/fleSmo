@@ -14,5 +14,5 @@ const WhyChoose =  new mongoose.Schema({
 
 var  WhyChooseModel = mongoose.model( "WhyChooseUs" , WhyChoose ) ; 
 
-module.exports = WhyChooseModel ;
+module.exports = WhyChooseModel;
 
