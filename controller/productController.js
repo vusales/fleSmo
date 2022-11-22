@@ -145,12 +145,27 @@ const filter = async (req , res) => {
     }
 }
 
+const getSpecialProducts = async (req , res ) => {
+    // show the cheapest 50 products 
+    const cheapServicess =  await Product.find({}).populate(["options", "categories" ]).sort([['price', 'asc']]).limit(50); 
+
+    res.send({
+      specaialProducts : {
+        cheapServicess : {
+            products : cheapServicess , 
+        }
+
+      }
+    })
+}
+
 
 module.exports = {
     seed , 
     getProducts ,
     getProductOptionsById ,
     filter , 
+    getSpecialProducts , 
 }
 
 

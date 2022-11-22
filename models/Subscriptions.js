@@ -33,19 +33,25 @@ var Subs = new mongoose.Schema({
 
 var SubscriptionsSchema = new mongoose.Schema({
     price : Number , 
-    title: String, 
+    title: String , 
     subTitle: String ,  
     description: String , 
-    subscriptions : [{type: mongoose.Schema.Types.ObjectId , ref: "SubscriptionDetails"  }] , 
+    subscriptions : [{type: mongoose.Schema.Types.ObjectId , ref: "SubscriptionDetails" }] , 
 },
 {
     collection:"subscriptions",
 });
 
-var Subscriptions = mongoose.model("subscriptions" , SubscriptionsSchema );
+var Subscriptions = mongoose.model("Subscriptions" , SubscriptionsSchema );
 var SubsModel = mongoose.model("SubscriptionDetails" , Subs );
+var SubsForEachNewPostModel = mongoose.model("SubsForEachNewPost" , SubsForEachNewPost );
+var SubsPerPeriodPerPageModel = mongoose.model("SubsPerPeriodPerPage" , SubsPerPeriodPerPage );
+var SubsSettingsModel = mongoose.model("SubsSettings" , SubsSettings );
 
 module.exports = {
     Subscriptions , 
-    SubsModel , 
+    SubsModel ,  
+    SubsForEachNewPostModel ,
+    SubsPerPeriodPerPageModel ,  
+    SubsSettingsModel , 
 };

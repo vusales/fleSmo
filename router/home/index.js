@@ -3,14 +3,15 @@ const {
     getBannerData ,  
     seedBannerData , 
     getHomePageContent , 
-    getInfoContainersData , 
-    // sendSubscriptionById  
+    getInfoContainersData ,
+    sendPagesIntro ,  
 } =  require("../../controller/homeController");
 const router = express.Router("");
 
 
 // base api for Home page
 router.get("/home" , (req , res) => getHomePageContent(req , res) ); 
+router.get("/pages" , (req , res) => sendPagesIntro(req , res) ); 
 
 // send subscripted product by id 
 // router.post("/subscriptions/:id" , (req , res) => sendSubscriptionById(req , res) ); 
