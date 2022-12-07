@@ -37,7 +37,7 @@ const getHomePageContent = async (req, res) => {
 const sendPagesIntro = async (req, res) => {
     // createPagesIntro(); 
     const pagesIntro = await PagesIntroModel.find({}).populate("pageContent.characteristicCards").exec();
- 
+
     res.send({
         data : {
             banners :  pagesIntro , 
@@ -48,24 +48,30 @@ const sendPagesIntro = async (req, res) => {
 const createPagesIntro = async () => {
     const characteristic =  new CharacteristicCardsModel({
         icon: "" , 
-        title: "Audit and detailed analysis of the project, preparation of personal recommendations." ,
+        title: "Conclusion in the TOP by search, increasing the chance of getting into trends and recommended ones." ,
     });
    
-    const introPage = new PagesIntroModel({
-        pageName: "Big brands" , 
-        pageContent : {
-            intro: "Need clients and subscribers?" , 
-            title: "Business promotion in social networks" , 
-            bannerDescription : `We will think over a strategy, draw up a page promotion plan and ensure a constant flow of customers, this is to attract new subscribers and increase popularity by reaching the target audience.
-            Increasing brand awareness, proper advertising, comprehensive services to increase views, likes and subscribers!` , 
-            image: "" ,
-            characteristicCards :  [] ,
-        } 
-    }); 
+    // const introPage = new PagesIntroModel({
+    //     pageName: "Big brands" , 
+    //     pageContent : {
+    //         intro: "Need clients and subscribers?" , 
+    //         title: "Business promotion in social networks" , 
+    //         bannerDescription : `We will think over a strategy, draw up a page promotion plan and ensure a constant flow of customers, this is to attract new subscribers and increase popularity by reaching the target audience.
+    //         Increasing brand awareness, proper advertising, comprehensive services to increase views, likes and subscribers!` , 
+    //         image: "" ,
+    //         characteristicCards :  [] ,
+    //     } 
+    // }); 
 
-    characteristic.save() ; 
-    introPage.pageContent.characteristicCards.addToSet(characteristic); 
-    introPage.save();
+    // characteristic.save() ; 
+    // introPage.pageContent.characteristicCards.addToSet(characteristic); 
+    // introPage.save();
+
+    PagesIntroModel.findById("637ccae62d4de1235a88079d" , function (err ,  findedItem ) {
+        if(err) console.log("err" , err);
+        findedItem.pageContent.characteristicCards.push(characteristic);
+        findedItem.save(function(err){if(err)return}) ; 
+    }) ; 
 }
 
 const createSubscriptions = async () => {

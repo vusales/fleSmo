@@ -14,12 +14,11 @@ const authenticate = async (email, password) => {
     if (email === DEFAULT_ADMIN.email && password === DEFAULT_ADMIN.password) {
       return Promise.resolve(DEFAULT_ADMIN);
     }
-    return null
+    return null ; 
 }
 
 const setupAdminjs = app => {
     const adminJs = new AdminJS({
-        // databases: [],
         resources: dBase ,
         rootPath: "/admin" , // Path to the AdminJS dashboard.       
     });
@@ -66,7 +65,6 @@ const setupAdminjs = app => {
     const router = AdminJSExpress.buildRouter(adminJs);
     adminJs.watch();
     app.use(adminJs.options.rootPath, router);
-
 }
 
 module.exports = setupAdminjs ; 

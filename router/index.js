@@ -2,6 +2,7 @@ const mainRoute =  require("./home/main");
 const homeRoute = require("./home/index");
 const categoryRoute = require("./category/index");
 const productRoute = require("./product/index"); 
+const loginSignUp =  require("./loginSignup/index"); 
 
 const applyRoutes = app => {
     /** Home public */
@@ -12,6 +13,8 @@ const applyRoutes = app => {
     app.use('/api/catalog', categoryRoute );
     // Products 
     app.use("/api/products" , productRoute ); 
+    // LoginSignUp 
+    app.use("/api/auth" , loginSignUp); 
 };
 
 module.exports = applyRoutes;

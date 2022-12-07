@@ -16,6 +16,7 @@ databaseSetup(app)
     console.log("Connected db") ; 
     setupAdminjs(app); 
     app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+    // app.use('/public', express.static(path.join(__dirname, './public')));
     app.listen(port , ()=>{console.log("listening on port " + port)}); 
 })
 .catch(() =>{ 
