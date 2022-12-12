@@ -24,7 +24,18 @@ const userSchmema  =  new mongoose.Schema({
     date: {
         type: Date , 
         default: Date.now  
-    }
+    } , 
+    authToken : {
+        type: String , 
+        min: 2 , 
+        max : 255 , 
+    } ,
+    hashedOtp : {
+        type: String , 
+        min: 2 , 
+        max : 255 , 
+    },
+    verified : Boolean , 
 });
 
 const UserSchema =  mongoose.model("User" , userSchmema ); 

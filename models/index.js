@@ -17,10 +17,25 @@ const {
     SubCatgory , 
 } = require("./Category"); 
 const { diskStorage } = require('multer');
+require('dotenv').config();
 
 const localProvider = {
     bucket: 'uploads'
 };
+
+const afterHookForUploadImageUrl =  async (request , response , ctx ) => {
+    
+    
+
+    if(request.payload.image) {
+        let result  =   {
+            ...request.payload , 
+            image: process.env.DEFAULT_URL + "/uploads/" + request.payload.image
+        }
+        return result ; 
+    }
+}
+
 
 const dBase = [
     {
@@ -46,6 +61,17 @@ const dBase = [
                     type: 'buffer',
                 } ,
             } , 
+            actions:{
+                new : {
+                    // before: async (request )=>{
+                    //     console.log( "request" , request );
+                    // },
+                    before: async (request , response , ctx )=>{
+
+                        afterHookForUploadImageUrl(request , response , ctx); 
+                    }
+                }
+            }
         },
         features: [
             uploadFeature({
