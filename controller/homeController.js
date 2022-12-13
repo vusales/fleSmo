@@ -1,11 +1,12 @@
 const Banner =  require("../models/Banner"); 
 const InfoCards =  require("../models/InfoCards"); 
 const { 
-    Subscriptions , 
-    SubsModel  , 
-    SubsForEachNewPostModel ,
-    SubsPerPeriodPerPageModel ,  
-    SubsSettingsModel ,
+    // Subscriptions , 
+    // SubsModel  , 
+    SubscriptionsMainSchemaModel , 
+    SubscriptionTypesModel ,  
+    SubscriptionServicessModel ,
+    ServicessValuesModel ,
 } = require("../models/Subscriptions");
 const WhyChooseUs = require("../models/WhyChooseUs"); 
 const SiteStatistics =  require("../models/SiteStatistic");
@@ -21,7 +22,13 @@ const getHomePageContent = async (req, res) => {
     // createSubscriptions(); 
     const banners =  await Banner.find(); 
     const infoCards = await InfoCards.find(); 
-    const subscriptions = await Subscriptions.find({}).populate("subscriptions").exec(); 
+    const subscriptions = await SubscriptionsMainSchemaModel.find({}).populate({
+        path: "subscriptions",
+        populate: {
+            path: "servicess" , 
+            populate: { path: "service_values" }
+        }
+    }).exec(); 
     const whyChooseUs =  await WhyChooseUs.find();
     const statistics =  await SiteStatistics.find();
     
@@ -75,43 +82,49 @@ const createPagesIntro = async () => {
 }
 
 const createSubscriptions = async () => {
-    const subscription  = new Subscriptions({
+    const subscription  = new SubscriptionsMainSchemaModel({
         price : 1000 , 
         title: "Service Subscription", 
         subTitle: "Pay less, get more!" ,  
         description: "Subscriptions are the best way to promote and promote your social media accounts. Promotion in social networks by subscription is an opportunity to show your activities and quickly attract a target audience that is ready to take real actions. We guarantee the fulfillment of even the largest order.Bonuses are offered for new customers who place large orders. When you contact us on an ongoing basis, you are guaranteed to receive discounts. We provide promotion services based on the use of white methods. You do not risk by contacting us." , 
         subscriptions: [] , 
     }); 
-    const subsub = new SubsModel({
+    const subscriptionsTypes = new SubscriptionTypesModel({
         icon: "" , 
-        title: "Instagram", 
+        title: "TikTok", 
         image: "" , 
         promotionMethod: "As soon as you add a new post to your Instagram account, our online su…" , 
-        subscriptionsSettings : {
-            defaultPostForPeriod: 100 , 
-            repeatTaskPerDay: [10, 100 , 150 ] , 
-        } ,
-        forEachNewPost: [{
-            title:"perPost" , 
-            price: 2000 , 
-            currency: "manat" , 
-            amount: 10 , 
-            incrementStep: 10 , 
-        }] , 
-        perPeriodPerPage: [{
-            title:"perPage" , 
-            price: 3000 , 
-            currency: "manat" , 
-            amount: 50 , 
-            incrementStep: 15 , 
-        }] , 
+        servicess: [] ,
     });
 
-    subsub.save(function(err){
+    const servicess = SubscriptionServicessModel({
+        service_title: "FOR EACH NEW POST" , 
+        service_values : [] , 
+    }); 
+
+    const values = ServicessValuesModel({
+        title: "Likes" ,
+        itemPrice: 0.10 , 
+        currency: "AZN" , 
+        incrementValues: [300 , 400 , 500 , 600 ] ,
+        amount: 0 , 
+    });
+
+    values.save(function(err){
+        if(err) console.log("subsub err" , err) ; 
+    });
+    servicess.service_values.push(values) ; 
+
+    servicess.save(function(err){
         if(err) console.log("subsub err" , err) ; 
     });
 
-    subscription.subscriptions.push(subsub); 
+    subscriptionsTypes.servicess.push(servicess); 
+
+    subscriptionsTypes.save(function(err){
+        if(err) console.log("subsub err" , err) ; 
+    });
+    subscription.subscriptions.push(subscriptionsTypes); 
     subscription.save(function (err) {
         if (err) return handleError("subs err" , err);
         // that's it!

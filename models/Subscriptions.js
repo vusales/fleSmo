@@ -1,57 +1,44 @@
 const mongoose = require('mongoose');
 
-const SubsForEachNewPost =  new mongoose.Schema({
+
+const servicessValues =  new mongoose.Schema({ 
     title: String ,
-    price: Number , 
+    itemPrice: Number , 
     currency: String , 
-    incrementStep: Number ,
+    incrementValues: Array ,
     amount: Number , 
+}) ; 
+
+const SubscriptionServicess =  new mongoose.Schema({
+    service_title: String , 
+    service_values : [{type: mongoose.Schema.Types.ObjectId , ref: "ServicessValues" }]
 }); 
 
-const SubsPerPeriodPerPage =  new mongoose.Schema({
-    title: String ,
-    price: Number , 
-    currency: String , 
-    incrementStep: Number ,
-    amount: Number , 
-});
 
-const SubsSettings = new mongoose.Schema({
-    defaultPostForPeriod: Number , 
-    repeatTaskPerDay: Array , 
-}); 
-
-var Subs = new mongoose.Schema({
+var SubscriptionTypes = new mongoose.Schema({
     icon: String , 
     title: String , 
     image: String , 
     promotionMethod: String , 
-    subscriptionsSettings : SubsSettings ,
-    forEachNewPost: [SubsForEachNewPost] , 
-    perPeriodPerPage: [SubsPerPeriodPerPage] , 
+    servicess: [SubscriptionServicess] , 
 });
 
-var SubscriptionsSchema = new mongoose.Schema({
+var SubscriptionsMainSchema = new mongoose.Schema({
     price : Number , 
     title: String , 
     subTitle: String ,  
     description: String , 
-    subscriptions : [{type: mongoose.Schema.Types.ObjectId , ref: "SubscriptionDetails" }] , 
-},
-{
-    collection:"subscriptions",
+    subscriptions : [{type: mongoose.Schema.Types.ObjectId , ref: "SubscriptionTypes" }] , 
 });
 
-var Subscriptions = mongoose.model("Subscriptions" , SubscriptionsSchema );
-var SubsModel = mongoose.model("SubscriptionDetails" , Subs );
-var SubsForEachNewPostModel = mongoose.model("SubsForEachNewPost" , SubsForEachNewPost );
-var SubsPerPeriodPerPageModel = mongoose.model("SubsPerPeriodPerPage" , SubsPerPeriodPerPage );
-var SubsSettingsModel = mongoose.model("SubsSettings" , SubsSettings );
+var SubscriptionsMainSchemaModel= mongoose.model("SubscriptionsMainSchema" , SubscriptionsMainSchema );
+var SubscriptionTypesModel = mongoose.model("SubscriptionTypes" , SubscriptionTypes );
+var SubscriptionServicessModel = mongoose.model("SubscriptionServicess" , SubscriptionServicess );
+var ServicessValuesModel = mongoose.model("ServicessValues" , servicessValues );
 
 module.exports = {
-    Subscriptions , 
-    SubsModel ,  
-    SubsForEachNewPostModel ,
-    SubsPerPeriodPerPageModel ,  
-    SubsSettingsModel , 
+    SubscriptionsMainSchemaModel , 
+    SubscriptionTypesModel ,  
+    SubscriptionServicessModel ,
+    ServicessValuesModel ,
 };
