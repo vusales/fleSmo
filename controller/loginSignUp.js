@@ -81,9 +81,9 @@ const signOut = async (req , res) => {
 }
 
 const checkEmail = async (req , res) => {
-    const { email ,  token } = req.body; 
+    const { email } = req.body; 
     // check body 
-    if(!email || !token ) return res.status(400).send("istifadəçi məlumatları düzgen deyil!"); 
+    if(!email) return res.status(400).send("istifadəçi məlumatları düzgen deyil!"); 
     // check email 
     const isEmailTrue =  await UserSchema.find({email: email}) ; 
     if(!isEmailTrue ) return res.status(400).send("Istifadəçi məlumatları yanışdır!");
@@ -121,17 +121,17 @@ const checkEmail = async (req , res) => {
         html: `<b style="font-size:30px ; line-height:64px; text-align:center;">${OtpCode}</b>`, // html body
     },
     (err , data) => {
-        if (err) return console.log("err" , err );
+        if (err) return res.send({result:false}); 
         if(data) {
-            res.send(`${data.messageId}`); 
+            res.send({result:true}); ; 
         }
     });
 }
 
 const veriFyCode = async (req , res ) => {
-    const {code , token } = req.body ; 
-    if( !code || !token ) return  res.status(400).send("Təsdiqləmə kodu düzgün deyil!");
-    const user = await UserSchema.findOne({authToken: token }); 
+    const {code , email } = req.body ; 
+    if(!code || !email ) return  res.status(400).send("Təsdiqləmə kodu düzgün deyil!");
+    const user = await UserSchema.findOne({email: email }); 
     const iscodeTrue = bcrypt.compare(code, user?.hashedOtp).then((result) => {
         if(result){
             res.status(200).send({
@@ -147,18 +147,18 @@ const veriFyCode = async (req , res ) => {
 
 const changePassword =  async(req , res) => {
     console.log("req" ,  req );
-    const {password ,  token } = req.body ; 
-    if(!password) return res.status(400).send("İstifadəçi məlumatları düzgün deyil!"); 
+    const { password , email } = req.body ; 
+    if(!password || !email ) return res.status(400).send("İstifadəçi məlumatları düzgün deyil!"); 
 
     // Hash Password 
     const salt =  await bcrypt.genSalt(10);
     const becryptedPassword =  await bcrypt.hash( password ,  salt ); 
     
     // update password
-    await UserSchema.updateOne({authToken: token } , {password: becryptedPassword }); 
+    await UserSchema.updateOne({email: email } , {password: becryptedPassword }); 
 
     res.status(200).send({
-        result: true
+        result: true 
     }); 
 }
 
