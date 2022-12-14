@@ -160,12 +160,30 @@ const getSpecialProducts = async (req , res ) => {
 }
 
 
+const search  =  async (req , res) => {
+    try {
+        const {title} = req.body ; 
+        if(!title) return res.status(400).send("İstifadəçi məlumatları düzgün deyil"); 
+        const products = await Product.find({
+            "title" : { 
+            $regex: title , 
+            $options: 'i' 
+        }}).populate("options").populate("categories").exec();
+        res.status(200).send({
+            data: products , 
+        })
+    }catch(err) {
+        if(err) return console.log("catch err" ,  err );
+    }
+}
+
 module.exports = {
     seed , 
     getProducts ,
     getProductOptionsById ,
     filter , 
     getSpecialProducts , 
+    search , 
 }
 
 
