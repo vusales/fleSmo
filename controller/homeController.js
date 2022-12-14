@@ -82,13 +82,13 @@ const createPagesIntro = async () => {
 }
 
 const createSubscriptions = async () => {
-    const subscription  = new SubscriptionsMainSchemaModel({
-        price : 1000 , 
-        title: "Service Subscription", 
-        subTitle: "Pay less, get more!" ,  
-        description: "Subscriptions are the best way to promote and promote your social media accounts. Promotion in social networks by subscription is an opportunity to show your activities and quickly attract a target audience that is ready to take real actions. We guarantee the fulfillment of even the largest order.Bonuses are offered for new customers who place large orders. When you contact us on an ongoing basis, you are guaranteed to receive discounts. We provide promotion services based on the use of white methods. You do not risk by contacting us." , 
-        subscriptions: [] , 
-    }); 
+    // const subscription  = new SubscriptionsMainSchemaModel({
+    //     price : 1000 , 
+    //     title: "Service Subscription", 
+    //     subTitle: "Pay less, get more!" ,  
+    //     description: "Subscriptions are the best way to promote and promote your social media accounts. Promotion in social networks by subscription is an opportunity to show your activities and quickly attract a target audience that is ready to take real actions. We guarantee the fulfillment of even the largest order.Bonuses are offered for new customers who place large orders. When you contact us on an ongoing basis, you are guaranteed to receive discounts. We provide promotion services based on the use of white methods. You do not risk by contacting us." , 
+    //     subscriptions: [] , 
+    // }); 
     const subscriptionsTypes = new SubscriptionTypesModel({
         icon: "" , 
         title: "TikTok", 
@@ -124,11 +124,13 @@ const createSubscriptions = async () => {
     subscriptionsTypes.save(function(err){
         if(err) console.log("subsub err" , err) ; 
     });
-    subscription.subscriptions.push(subscriptionsTypes); 
-    subscription.save(function (err) {
-        if (err) return handleError("subs err" , err);
-        // that's it!
-    });
+
+    await SubscriptionsMainSchemaModel({_id: "SubscriptionsMainSchemaModel"} , { subscriptions : subscriptionsTypes }); 
+    // subscription.subscriptions.push(subscriptionsTypes); 
+    // subscription.save(function (err) {
+    //     if (err) return handleError("subs err" , err);
+    //     // that's it!
+    // });
 }
 
 const getBannerData = async (req , res ) => {
@@ -170,10 +172,23 @@ const getInfoContainersData = async (req , res ) => {
     res.send({data : info });
 }
 
+const sendSubscriptionById =  async (req , res) => {
+    const {id} =  req.body ; 
+    if(!id) return res.status(400).send("İstifadəçi məlumtları düzgün deyil!");
+    const resultData =  await SubscriptionTypesModel.findById(id).populate({
+        path: "servicess" , 
+        populate: { path: "service_values" }
+    });
+    res.status(200).send({
+        data: resultData , 
+    });
+}
+
 module.exports = {
     getHomePageContent ,
     getBannerData , 
-    seedBannerData,
+    seedBannerData ,
     getInfoContainersData ,
     sendPagesIntro , 
+    sendSubscriptionById , 
 }
