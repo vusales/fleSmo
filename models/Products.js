@@ -31,7 +31,7 @@ const ProductSchema =  mongoose.Schema({
     excerpt:{
         type: String , 
     }, 
-    options: [{type: mongoose.Schema.Types.ObjectId , ref: "ProductOptions"}], 
+    options: {type: mongoose.Schema.Types.ObjectId , ref: "ProductOptions"}, 
     promotions: [PromotionSchema], 
     categories: [{type: mongoose.Schema.Types.ObjectId , ref: "Categories"}], 
 }); 
