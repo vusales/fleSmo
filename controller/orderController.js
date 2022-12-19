@@ -52,8 +52,8 @@ const order = async (req , res ) => {
 
         user.save(); 
 
-        res.send({
-            user : user , 
+        res.status(200).send({
+            result: true 
         }); 
 
     }catch(err){
