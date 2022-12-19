@@ -1,6 +1,5 @@
 const mongoose = require("mongoose"); 
 
-
 const userSchmema  =  new mongoose.Schema({
     name: {
         type: String , 
@@ -8,7 +7,6 @@ const userSchmema  =  new mongoose.Schema({
         min: 2 , 
         max : 255 
     }, 
-
     email: {
         type: String , 
         required: true , 
@@ -35,6 +33,7 @@ const userSchmema  =  new mongoose.Schema({
         min: 2 , 
         max : 255 , 
     },
+    orders: [{type: mongoose.Schema.Types.ObjectId , ref: "Order" }], 
     verified : Boolean , 
 });
 
