@@ -1,7 +1,7 @@
 const mongoose = require("mongoose"); 
 
 const schema =  mongoose.Schema({
-    user_id: {
+    token: {
         type: String, 
         required: true , 
     }, 
@@ -9,9 +9,14 @@ const schema =  mongoose.Schema({
         type: String, 
         required: true , 
     } , 
-    service_id: {
-        type: String, 
-        required: true , 
+    // service_id: {
+    //     type: String, 
+    // }, 
+    quantity : {
+        type: String , 
+    }, 
+    price : {
+        type: Number , 
     }, 
     selected_services: {
         type:Array , 
@@ -19,14 +24,6 @@ const schema =  mongoose.Schema({
     service_name: {
         type: String, 
     }, 
-    quantity : {
-        type: String , 
-        required: true , 
-    } , 
-    price : {
-        type: Number , 
-        required: true , 
-    } , 
     email: {
         type: String , 
     } , 
@@ -36,6 +33,10 @@ const schema =  mongoose.Schema({
     subscription_period : {
         type: String , 
     }, 
+    date: {
+        type: Date , 
+        default: Date.now()
+    },
 }); 
 
 const Order =  mongoose.model("Order" , schema ); 
