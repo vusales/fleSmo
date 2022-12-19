@@ -35,13 +35,13 @@ const order = async (req , res ) => {
         const order =  new Order({
             token: token , 
             url_link:  url_link , 
-            quantity : quantity, 
-            price : price, 
+            quantity : quantity || "", 
+            price : price || "", 
             selected_services: selected_services || [], 
-            service_name: service_name , 
-            email: email , 
-            phone:  phone, 
-            subscription_period : subscription_period, 
+            service_name: service_name || "", 
+            email: email || "", 
+            phone:  phone || "", 
+            subscription_period : subscription_period || "", 
         }); 
 
         order.save() ; 
