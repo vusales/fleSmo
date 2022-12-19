@@ -6,6 +6,7 @@ const loginValidationSchema =  require("../validation/LoginValidation");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
+require('dotenv').config();
 
 
 const signUp  = async (req , res ) => {
@@ -93,7 +94,7 @@ const checkEmail = async (req , res) => {
     const salt =  await bcrypt.genSalt(10);
     const hashedOTP = await bcrypt.hash( OtpCode ,  salt); 
     // // write hashed otp to dataBase
-    await UserSchema.updateOne({email: email } ,  {hashedOtp : hashedOTP }); 
+    await UserSchema.updateOne({ email: email } ,  { hashedOtp : hashedOTP }); 
 
     // Generate test SMTP service account from ethereal.email
     // Only needed if you don't have a real mail account for testing
@@ -105,8 +106,8 @@ const checkEmail = async (req , res) => {
         port: 465,
         secure: true,
         auth:{
-            user: "sahibakbarr1@gmail.com" ,
-            pass: "mnuznfqotrtevvxa",
+            user: process.env.APP_EMAIL ,
+            pass: process.env.APP_EMAIL_PASSWORD,
         }
     };
     let transporter = nodemailer.createTransport(smtpConfig);
@@ -115,7 +116,7 @@ const checkEmail = async (req , res) => {
     {
         from: 'sahibakbarr1@gmail.com', // sender address
         // to: `${email}`, // list of receivers
-        to: "vusale.safarova95@mail.ru", // list of receivers
+        to: email , // list of receivers
         subject: "FLESMO OTP VERIFICATION CODE", // Subject line
         //text: "OtpCode", // plain text body
         html: `<b style="font-size:30px ; line-height:64px; text-align:center;">${OtpCode}</b>`, // html body
