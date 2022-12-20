@@ -28,7 +28,7 @@ const order = async (req , res ) => {
         || !price 
         || !email 
         || !phone 
-        || !subscription_period 
+        // || !subscription_period 
         )) return res.status(400).send("User information is not correct!");
 
         const order =  new Order({
