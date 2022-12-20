@@ -16,11 +16,17 @@ const signUp  = async (req , res ) => {
 
     // CHECKING USER 
     const isEmailExict =  await UserSchema.findOne({email : req.body.email }) ; 
-    if(isEmailExict) return res.status(400).send("Email already exists"); 
+    if(isEmailExict) return res.send({
+        result: false ,  
+        message: "Email already exists" 
+    }); 
 
     // CHECk PHONE 
     const isPhoneExict =  await UserSchema.findOne({phone : req.body.phone }); 
-    if(isPhoneExict) return res.status(400).send("Phone already exists"); 
+    if(isPhoneExict) return res.send({
+        result: false ,  
+        message: "Phone already exists" 
+    }); 
 
 
     // Hash Password 
@@ -39,7 +45,9 @@ const signUp  = async (req , res ) => {
     try {
         // if there is no error save user 
         const savedUser =  await user.save(); 
-        res.send(savedUser);
+        res.status(200).send({
+            result: true 
+        });
     }catch(err){
         res.status(400).send("catch eerr"); 
     }

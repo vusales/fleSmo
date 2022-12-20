@@ -19,6 +19,9 @@ const userSchmema  =  new mongoose.Schema({
         max: 1024 , 
         min: 8 , 
     } , 
+    phone : {
+        type: String ,  
+    } , 
     date: {
         type: Date , 
         default: Date.now
