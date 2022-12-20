@@ -1,5 +1,20 @@
 const mongoose = require("mongoose"); 
 
+const selectedServiceSchema = mongoose.Schema({
+    service_id: {
+        type: String , 
+    }, 
+    currency: {
+        type: String , 
+    },
+    price: {
+        type: Number , 
+    },
+    quantity: {
+        type: Number , 
+    },
+}); 
+
 const schema =  mongoose.Schema({
     token: {
         type: String, 
@@ -18,9 +33,7 @@ const schema =  mongoose.Schema({
     price : {
         type: Number , 
     }, 
-    selected_services: {
-        type:Array , 
-    }, 
+    selected_services: [ { type: mongoose.Schema.Types.ObjectId , ref: "SelectedServicess" } ], 
     service_name: {
         type: String, 
     }, 
@@ -35,12 +48,14 @@ const schema =  mongoose.Schema({
     }, 
     date: {
         type: Date , 
-        default: Date.now()
+        default: Date.now
     },
 }); 
 
 const Order =  mongoose.model("Order" , schema ); 
+const SelectedServicess =  mongoose.model("SelectedServicess"  ,  selectedServiceSchema ); 
 
 module.exports = {
     Order , 
+    SelectedServicess , 
 }; 

@@ -1,4 +1,4 @@
-const {Order}  = require("../models/Order") ; 
+const {Order ,  SelectedServicess }  = require("../models/Order") ; 
 const {UserSchema} = require("../models/User") ;
 
 
@@ -31,22 +31,29 @@ const order = async (req , res ) => {
         || !subscription_period 
         )) return res.status(400).send("User information is not correct!");
 
-
         const order =  new Order({
             token: token , 
             url_link:  url_link , 
             quantity : quantity || "", 
             price : price || "", 
-            selected_services: selected_services || [], 
+            selected_services: [], 
             service_name: service_name || "", 
             email: email || "", 
             phone:  phone || "", 
             subscription_period : subscription_period || "", 
         }); 
 
+        selected_services?.forEach(element => {
+            const selectedService =  new SelectedServicess({
+                ...element , 
+            }); 
+            selectedService.save(); 
+            order.selected_services.push(selectedService);
+        });
+
         order.save() ; 
 
-        const user =  await UserSchema.findOne({authToken : token }).populate("orders"); 
+        const user =  await UserSchema.findOne({ authToken : token }).populate("orders"); 
 
         user.orders.push(order); 
 
@@ -54,7 +61,7 @@ const order = async (req , res ) => {
 
         res.status(200).send({
             result: true 
-        }); 
+        });
 
     }catch(err){
         console.log("ERROR"  , err );
