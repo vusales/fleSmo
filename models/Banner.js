@@ -6,7 +6,14 @@ var BannerSchema = new mongoose.Schema({
     subTitle : String , 
     description : String , 
     buttons : Array , 
-    image: String ,
+    image: String  ,
+    // image: {
+    //     type: Buffer , 
+    //     contentType: {
+    //         type: String , 
+    //         default : "image.png"
+    //     }
+    // },
 },
 {
     collection:"banner",

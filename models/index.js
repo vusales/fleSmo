@@ -9,26 +9,16 @@ const {
     Category ,
     SubCatgory , 
 } = require("./Category"); 
-const { diskStorage } = require('multer');
+var path = require('path');
 require('dotenv').config();
+const {beforeHook , afterHook } = require("./adminHooks/index"); 
 
 const localProvider = {
-    bucket: 'uploads'
-};
-
-const afterHookForUploadImageUrl =  async (request , response , ctx ) => {
-    
-    
-
-    if(request.payload.image) {
-        let result  =   {
-            ...request.payload , 
-            image: process.env.DEFAULT_URL + "/uploads/" + request.payload.image
-        }
-        return result ; 
+    bucket: 'public/images' , 
+    opts: {
+        baseUrl: "/images" , 
     }
-}
-
+};
 
 const dBase = [
     {
@@ -51,30 +41,74 @@ const dBase = [
                     type: 'array',
                 } , 
                 image: {
-                    type: 'buffer',
+                    type: 'string',
                 } ,
             } , 
-            actions:{
-                new : {
-                    // before: async (request )=>{
-                    //     console.log( "request" , request );
-                    // },
-                    before: async (request , response , ctx )=>{
-
-                        afterHookForUploadImageUrl(request , response , ctx); 
-                    }
-                }
-            }
+            // actions: {
+            //     // edit : {
+            //     //     before : async (request, context) => {
+            //     //         const newRequest =  await beforeHook(request, context) ; 
+            //     //         return newRequest ; 
+            //     //     }, 
+            //     //     after : async (originalResponse, request, context) => {
+            //     //         const newResult =  afterHook(originalResponse, request, context); 
+            //     //         return newResult; 
+            //     //     },
+            //     // },   
+            //     // new : {
+            //     //     before : async (request, context) => {
+            //     //         const newRequest =  await beforeHook(request, context) ; 
+            //     //         return newRequest ; 
+            //     //     }, 
+            //     //     after : async (originalResponse, request, context) => {
+            //     //         const newResult =  afterHook(originalResponse, request, context); 
+            //     //         return newResult; 
+            //     //     },
+            //     // } ,  
+            //     // list : {
+            //     //     before : async (request, context) => {
+            //     //         const newRequest =  await beforeHook(request, context) ; 
+            //     //         return newRequest ; 
+            //     //     }, 
+            //     //     after : async (originalResponse, request, context) => {
+            //     //         const newResult =  afterHook(originalResponse, request, context); 
+            //     //         return newResult; 
+            //     //     },
+            //     // } , 
+            //     // show : {
+            //     //     before : async (request, context) => {
+            //     //         const newRequest =  await beforeHook(request, context) ; 
+            //     //         return newRequest ; 
+            //     //     }, 
+            //     //     after : async (originalResponse, request, context) => {
+            //     //         const newResult =  afterHook(originalResponse, request, context); 
+            //     //         return newResult; 
+            //     //     },
+            //     // }, 
+            // }
         },
         features: [
             uploadFeature({
                 provider: { local: localProvider },
-                properties: {
-                    key: "image" , // to this db field feature will safe S3 key,
-                    file: "file" , 
-                    mimeType: "mimeType", // this property is important because allows to have previews,
+                // properties: {
+                //     key: "image" , // to this db field feature will safe S3 key,
+                //     // file: "file" , 
+                //     mimeType: "mimeType", // this property is important because allows to have previews,
+                //     // filePath: "image" ,
+                // },
+                properties: { 
+                    file: 'file',
+                    key: 'image',
+                    bucket: 'bucket', 
+                    mimeType: 'mime' ,
+                    filePath:'filePath'
                 },
-                uploadPath: (record, filename) => ( `/${filename}`),
+                uploadPath: (record, filename) => {
+                    console.error("ASDASDASDASDASDSADDSAD AASDASDD ASD AS DAS D");
+                    console.error(record,filename);
+                    let fname = `public/images/${record.params._id}/${filename}`; 
+                    return ( `/${filename}`);
+                },
                 validation: {
                     mimeTypes: [
                         "image/jpeg",
