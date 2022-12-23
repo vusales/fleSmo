@@ -45,7 +45,13 @@ const ProductSchema =  mongoose.Schema({
     },
     options: {type: mongoose.Schema.Types.ObjectId , ref: "ProductOptions"}, 
     promotions: [PromotionSchema], 
-    categories: [{type: mongoose.Schema.Types.ObjectId , ref: "Categories"}], 
+    // categories: {type: mongoose.Schema.Types.ObjectId , ref: "Categories"}, 
+    category_id: {
+        type: String , 
+    }, 
+    subcategory_id: {
+        type: String , 
+    }, 
 }); 
 
 const Product =  mongoose.model("Product", ProductSchema ); 

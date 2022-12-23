@@ -84,7 +84,7 @@ const seed = async (req , res) => {
 
 const getProducts =  async (req ,res) => {
     try {
-        const products = await Product.find({}).populate("options").populate("categories").exec(); 
+        const products = await Product.find({}).populate("options").exec(); 
         res.send({
             products
         });
@@ -113,26 +113,27 @@ const getProductOptionsById = async (req, res) => {
 const filter = async (req , res) => {
     try {
         // filter works with category name  and subcategory id 
-        const {category , subCategoryId } =  req.query ; 
-        const products =  await Product.find().populate("options").populate({ 
-            path: 'categories',
-            populate: {
-                path: 'subCategories',
-                model: 'SubCategories'
-            } 
-        });
+        const {categoryId , subCategoryId } =  req.query ; 
+        const products = await Product.find().populate("options") ; 
+        // .populate({ 
+        //     path: 'categories',
+        //     populate: {
+        //         path: 'subCategories',
+        //         model: 'SubCategories'
+        //     } 
+        // });
 
         if(products.length) {
             let filteredProduct =  products.map(( product , index )=> {
                 if(
-                    category 
-                    && product.categories[0].categoryName?.toLowerCase().trim() === category.toLowerCase().trim() 
+                    categoryId 
+                    && product?.category_id?.toString() === categoryId.trim() 
                 ){ 
                     return product;   
                 }else if(
                     subCategoryId 
                     && 
-                    product.categories[0].subCategories?.filter((item) => item?._id.toString() === subCategoryId ).length
+                    product?.subcategory_id?.toString() === subCategoryId.trim() 
                 ){
                     return product;   
                 }
