@@ -10,6 +10,7 @@ const {
     Category , 
     SubCatgory , 
 } = require("../models/Category");
+const sanitizer = require('sanitizer');
 
 
 const createSeed = async () => {
@@ -72,7 +73,6 @@ const createSeed = async () => {
     }); 
     await newProduct.promotions.push(newProm); 
     // await newProduct.options.push(newProductOptions); 
-    await newProduct.categories.push(newCategory); 
     await newProduct.save();
 
 }
@@ -99,7 +99,7 @@ const getProductOptionsById = async (req, res) => {
         if(req.body.id){
             let productId = req.body.id ; 
             // const result =  await ProductOptions.findById(productId).exec(); 
-            const result =  await Product.findById(productId).populate("options").populate("categories").exec(); 
+            const result =  await Product.findById(productId).populate("options").exec(); 
             res.send({
                 productById: result , 
             }); 
@@ -151,10 +151,10 @@ const filter = async (req , res) => {
 
 const getSpecialProducts = async (req , res ) => {
     // show the cheapest 50 products 
-    const cheapServicess =  await Product.find({}).populate(["options", "categories" ]).sort([['price', 'asc']]).limit(50);
-    const userChoice =  await Product.find({user_choice:true}).populate(["options", "categories" ]).limit(50);
-    const smmForBusiness =  await Product.find({smm_for_business:true}).populate(["options", "categories" ]).limit(50);
-    const bigBrands =  await Product.find({big_brands:true}).populate(["options", "categories" ]).limit(50);
+    const cheapServicess =  await Product.find({}).populate(["options"]).sort([['price', 'asc']]).limit(50);
+    const userChoice =  await Product.find({user_choice:true}).populate(["options"]).limit(50);
+    const smmForBusiness =  await Product.find({smm_for_business:true}).populate(["options" ]).limit(50);
+    const bigBrands =  await Product.find({big_brands:true}).populate(["options" ]).limit(50);
 
     res.send({
       specaialProducts : {
@@ -176,13 +176,14 @@ const getSpecialProducts = async (req , res ) => {
 
 const search  =  async (req , res) => {
     try {
-        const {title} = req.body ; 
+        let {title} = req.body ; 
+        title = sanitizer.escape(title);
         if(!title) return res.status(400).send("İstifadəçi məlumatları düzgün deyil"); 
         const products = await Product.find({
             "title" : { 
             $regex: title , 
             $options: 'i' 
-        }}).populate("options").populate("categories").exec();
+        }}).populate("options").exec();
         res.status(200).send({
             data: products , 
         })
