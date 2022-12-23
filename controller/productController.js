@@ -9,24 +9,54 @@ const {
 const {
     Category , 
     SubCatgory , 
-} = require("../models/Category"); 
+} = require("../models/Category");
 
-const createSeed = () => {
+
+const createSeed = async () => {
     const newProductFeature = new ProductFeature({
         icon: "someIcon" , 
-        title: "someFeature Twitter" , 
+        title: "someFeature FACEbOOK 3" , 
         description: "some description about Twitter Twitter" , 
     }); 
     const newProductOptions =  new ProductOptions({
         title: "OPop" ,
         price: 855 , 
-        serviceName: "likes" ,  
-        serviceAmount: "4000" , 
-        serviceIncreasementStep: "600" , 
+        serviceName: "subscriptions" ,  
+        serviceAmount: "8000" , 
+        serviceIncreasementStep: "800" , 
         productDescription: "absjghduj hagvujhasb gyasdh uyghaisjuiy9q ouiit778 ter6q7wtf", 
         productFeatures : [] , 
     }); 
     
+    const newProm =  new Promotion({
+        promotion: "FACEbOOK string 3" , 
+        color: "red" , 
+    }); 
+
+    const newCategory =  new Category({
+        icon: "icon.png" , 
+        categoryName: "FACEbOOK 3" , 
+        link: "" ,
+        subCategories : [] , 
+    })
+
+    const subCategories =  new SubCatgory({
+        icon: "Sub_icon", 
+        categoryName: "subCatalogName_3_FACEbOOK_3", 
+        link: "subCat_someLink_3",
+    }); 
+
+    // product.categories key
+    await subCategories.save(); 
+    newCategory.subCategories.push(subCategories) ; 
+    await newCategory.save();
+    // product.options key
+    await newProductFeature.save() ;
+    await newProductOptions.productFeatures.push(newProductFeature);
+    await newProductOptions.save();
+    // product.promotion key
+    await newProm.save(); 
+    // base Product model key
     const newProduct = new Product({
         image:"Twitter IMG" , 
         title: "Twitter" , 
@@ -34,43 +64,16 @@ const createSeed = () => {
         description: "lorem lorem lorem lorem", 
         link: "",
         promotions: [], 
-        options:  [], 
+        options: newProductOptions?._id , 
         categories : [], 
+        user_choice: false , 
+        smm_for_business: false , 
+        big_brands: true , 
     }); 
-
-    const newProm =  new Promotion({
-        promotion: "Twitter string" , 
-        color: "green" , 
-    }); 
-
-    const newCategory =  new Category({
-        icon: "icon.png" , 
-        categoryName: "Twitter" , 
-        link: "" ,
-        subCategories : [] , 
-    })
-
-    const subCategories =  new SubCatgory({
-        icon: "Sub_icon", 
-        categoryName: "subCatalogName_2_Twitter", 
-        link: "subCat_someLink_3",
-    }); 
-
-    // product.categories key
-    subCategories.save(); 
-    newCategory.subCategories.push(subCategories) ; 
-    newCategory.save();
-    // product.options key
-    newProductFeature.save() ;
-    newProductOptions.productFeatures.push(newProductFeature);
-    newProductOptions.save();
-    // product.promotion key
-    newProm.save(); 
-    // base Product model key
-    newProduct.promotions.push(newProm); 
-    newProduct.options.push(newProductOptions); 
-    newProduct.categories.push(newCategory); 
-    newProduct.save();
+    await newProduct.promotions.push(newProm); 
+    // await newProduct.options.push(newProductOptions); 
+    await newProduct.categories.push(newCategory); 
+    await newProduct.save();
 
 }
 
@@ -147,18 +150,28 @@ const filter = async (req , res) => {
 
 const getSpecialProducts = async (req , res ) => {
     // show the cheapest 50 products 
-    const cheapServicess =  await Product.find({}).populate(["options", "categories" ]).sort([['price', 'asc']]).limit(50); 
+    const cheapServicess =  await Product.find({}).populate(["options", "categories" ]).sort([['price', 'asc']]).limit(50);
+    const userChoice =  await Product.find({user_choice:true}).populate(["options", "categories" ]).limit(50);
+    const smmForBusiness =  await Product.find({smm_for_business:true}).populate(["options", "categories" ]).limit(50);
+    const bigBrands =  await Product.find({big_brands:true}).populate(["options", "categories" ]).limit(50);
 
     res.send({
       specaialProducts : {
         cheapServicess : {
             products : cheapServicess , 
+        },
+        userChoice: {
+            products : userChoice , 
+        },
+        smmForBusiness :{
+            products : smmForBusiness , 
+        } ,
+        bigBrands : {
+            products : bigBrands , 
         }
-
       }
     })
 }
-
 
 const search  =  async (req , res) => {
     try {

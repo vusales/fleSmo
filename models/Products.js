@@ -31,6 +31,18 @@ const ProductSchema =  mongoose.Schema({
     excerpt:{
         type: String , 
     }, 
+    user_choice: {
+        type: Boolean , 
+        require: true , 
+    },
+    smm_for_business: {
+        type: Boolean , 
+        require: true , 
+    },
+    big_brands: {
+        type: Boolean , 
+        require: true , 
+    },
     options: {type: mongoose.Schema.Types.ObjectId , ref: "ProductOptions"}, 
     promotions: [PromotionSchema], 
     categories: [{type: mongoose.Schema.Types.ObjectId , ref: "Categories"}], 
