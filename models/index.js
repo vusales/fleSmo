@@ -42,55 +42,10 @@ const dBase = [
                 buttons:{
                     type: 'array',
                 } , 
-                // image: {
-                //     type: 'string',
-                // } ,
                 uploadedFile: {
                    isVisible: true ,
                 }
             } , 
-            // actions: {
-            //     // edit : {
-            //     //     before : async (request, context) => {
-            //     //         const newRequest =  await beforeHook(request, context) ; 
-            //     //         return newRequest ; 
-            //     //     }, 
-            //     //     after : async (originalResponse, request, context) => {
-            //     //         const newResult =  afterHook(originalResponse, request, context); 
-            //     //         return newResult; 
-            //     //     },
-            //     // },   
-            //     // new : {
-            //     //     before : async (request, context) => {
-            //     //         const newRequest =  await beforeHook(request, context) ; 
-            //     //         return newRequest ; 
-            //     //     }, 
-            //     //     after : async (originalResponse, request, context) => {
-            //     //         const newResult =  afterHook(originalResponse, request, context); 
-            //     //         return newResult; 
-            //     //     },
-            //     // } ,  
-            //     // list : {
-            //     //     before : async (request, context) => {
-            //     //         const newRequest =  await beforeHook(request, context) ; 
-            //     //         return newRequest ; 
-            //     //     }, 
-            //     //     after : async (originalResponse, request, context) => {
-            //     //         const newResult =  afterHook(originalResponse, request, context); 
-            //     //         return newResult; 
-            //     //     },
-            //     // } , 
-            //     // show : {
-            //     //     before : async (request, context) => {
-            //     //         const newRequest =  await beforeHook(request, context) ; 
-            //     //         return newRequest ; 
-            //     //     }, 
-            //     //     after : async (originalResponse, request, context) => {
-            //     //         const newResult =  afterHook(originalResponse, request, context); 
-            //     //         return newResult; 
-            //     //     },
-            //     // }, 
-            // }
         },
         features: [
             uploadFeature({
@@ -103,13 +58,6 @@ const dBase = [
                     filename: 'uploadedFile.filename',
                     file: 'uploadFile',
                 },
-                // properties: { 
-                //     file: 'image',
-                //     key: 'imageName',
-                //     // bucket: 'bucket', 
-                //     // mimeType: 'mime' ,
-                //     // filePath: 'image'
-                // },
                 uploadPath: (record, filename) => {
                     return (`/${filename}`);
                 },
