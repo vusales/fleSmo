@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const UploadedFiles =  require("./UploadedFiles"); 
 
 var BannerSchema = new mongoose.Schema({
     intro: String , 
@@ -6,14 +7,8 @@ var BannerSchema = new mongoose.Schema({
     subTitle : String , 
     description : String , 
     buttons : Array , 
-    image: String  ,
-    // image: {
-    //     type: Buffer , 
-    //     contentType: {
-    //         type: String , 
-    //         default : "image.png"
-    //     }
-    // },
+    // image: String  ,
+    uploadedFile: UploadedFiles.schema ,
 },
 {
     collection:"banner",

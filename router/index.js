@@ -6,6 +6,12 @@ const loginSignUp =  require("./loginSignup/index");
 const order = require("./order/index"); 
 
 const applyRoutes = app => {
+    // app.all('/', function(req, res, next) {
+    //     res.header("Access-Control-Allow-Origin", "*");
+    //     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    //     next();
+    // });
+
     /** Home public */
     app.use("" , mainRoute);
 

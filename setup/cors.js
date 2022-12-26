@@ -11,6 +11,8 @@ const configureCors = app => {
             credentials: true,
             // exposedHeaders: ['x-w-t-access-token', 'x-w-t-refresh-token'],
             methods: ['GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'OPTIONS'],
+            "Access-Control-Allow-Origin": "*" , 
+            "Access-Control-Allow-Headers": "X-Requested-With" , 
         })
     );
 };

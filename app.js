@@ -13,12 +13,12 @@ corsSetup(app);
 routeSetup(app);
 databaseSetup(app)
 .then(()=>{
-    console.log("Connected db") ; 
     setupAdminjs(app); 
-    app.use(express.static(path.join(__dirname, './public')));
+    app.use(express.static('public'));
+    app.use("/images" , express.static('images'));
     app.listen(port , ()=>{console.log("listening on port " + port)}); 
 })
-.catch(() =>{ 
-    console.log("Db connection eror") ; 
+.catch((err) =>{ 
+    console.log("Db connection eror", err) ; 
     process.exit(1); 
 });

@@ -13,6 +13,8 @@ var path = require('path');
 require('dotenv').config();
 const {beforeHook , afterHook } = require("./adminHooks/index"); 
 
+console.log("public join" ,  path.join(__dirname, 'public', 'images') );
+
 const localProvider = {
     bucket: 'public/images' , 
     opts: {
@@ -40,9 +42,12 @@ const dBase = [
                 buttons:{
                     type: 'array',
                 } , 
-                image: {
-                    type: 'string',
-                } ,
+                // image: {
+                //     type: 'string',
+                // } ,
+                uploadedFile: {
+                   isVisible: true ,
+                }
             } , 
             // actions: {
             //     // edit : {
@@ -90,24 +95,23 @@ const dBase = [
         features: [
             uploadFeature({
                 provider: { local: localProvider },
-                // properties: {
-                //     key: "image" , // to this db field feature will safe S3 key,
-                //     // file: "file" , 
-                //     mimeType: "mimeType", // this property is important because allows to have previews,
-                //     // filePath: "image" ,
-                // },
-                properties: { 
-                    file: 'file',
-                    key: 'image',
-                    bucket: 'bucket', 
-                    mimeType: 'mime' ,
-                    filePath:'filePath'
+                properties: {
+                    key: 'uploadedFile.path',
+                    bucket: 'uploadedFile.folder',
+                    mimeType: 'uploadedFile.type',
+                    size: 'uploadedFile.size',
+                    filename: 'uploadedFile.filename',
+                    file: 'uploadFile',
                 },
+                // properties: { 
+                //     file: 'image',
+                //     key: 'imageName',
+                //     // bucket: 'bucket', 
+                //     // mimeType: 'mime' ,
+                //     // filePath: 'image'
+                // },
                 uploadPath: (record, filename) => {
-                    console.error("ASDASDASDASDASDSADDSAD AASDASDD ASD AS DAS D");
-                    console.error(record,filename);
-                    let fname = `public/images/${record.params._id}/${filename}`; 
-                    return ( `/${filename}`);
+                    return (`/${filename}`);
                 },
                 validation: {
                     mimeTypes: [
