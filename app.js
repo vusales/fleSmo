@@ -10,10 +10,10 @@ let port = process.env.PORT || 3002 ;
 const app = express();
 
 corsSetup(app);
-routeSetup(app);
 databaseSetup(app)
 .then(()=>{
     setupAdminjs(app); 
+    routeSetup(app);
     app.use(express.static('public'));
     app.use("/images" , express.static('images'));
     app.listen(port , ()=>{console.log("listening on port " + port)}); 
