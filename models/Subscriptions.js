@@ -14,7 +14,6 @@ const SubscriptionServicess =  new mongoose.Schema({
     service_values : [{type: mongoose.Schema.Types.ObjectId , ref: "ServicessValues" }]
 }); 
 
-
 var SubscriptionTypes = new mongoose.Schema({
     icon: String , 
     title: String , 

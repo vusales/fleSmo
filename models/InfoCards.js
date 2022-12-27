@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 
 var InfoCardsSchema = new mongoose.Schema({
-   icon: String , 
-   title: String , 
-   description: String , 
+    icon: {
+        type: String,
+    } , 
+    title: String , 
+    description: String , 
 },
 {
     collection:"infoCards",
