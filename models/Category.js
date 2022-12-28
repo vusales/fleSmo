@@ -1,7 +1,7 @@
 const mongoose = require("mongoose"); 
 
 const SubCategories =  new mongoose.Schema({
-    icon: {
+    image: {
         type: String , 
     }, 
     categoryName: {
@@ -13,7 +13,7 @@ const SubCategories =  new mongoose.Schema({
 });
 
 const CategorySchema  =  new mongoose.Schema({
-    icon: {
+    image: {
         type: String , 
     }, 
     categoryName: {

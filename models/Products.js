@@ -44,7 +44,7 @@ const ProductSchema =  mongoose.Schema({
         require: true , 
     },
     options: {type: mongoose.Schema.Types.ObjectId , ref: "ProductOptions"}, 
-    promotions: [PromotionSchema], 
+    promotions: [{type: mongoose.Schema.Types.ObjectId , ref: "Promotion"}], 
     // categories: {type: mongoose.Schema.Types.ObjectId , ref: "Categories"}, 
     category_id: {
         type: String , 

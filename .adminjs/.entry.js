@@ -47,9 +47,3 @@ import Component23 from '../node_modules/@adminjs/upload/src/features/upload-fil
 AdminJS.UserComponents.Component23 = Component23
 import Component24 from '../node_modules/@adminjs/upload/src/features/upload-file/components/show'
 AdminJS.UserComponents.Component24 = Component24
-import Component25 from '../node_modules/@adminjs/upload/src/features/upload-file/components/edit'
-AdminJS.UserComponents.Component25 = Component25
-import Component26 from '../node_modules/@adminjs/upload/src/features/upload-file/components/list'
-AdminJS.UserComponents.Component26 = Component26
-import Component27 from '../node_modules/@adminjs/upload/src/features/upload-file/components/show'
-AdminJS.UserComponents.Component27 = Component27

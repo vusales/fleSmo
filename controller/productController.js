@@ -84,7 +84,7 @@ const seed = async (req , res) => {
 
 const getProducts =  async (req ,res) => {
     try {
-        const products = await Product.find({}).populate("options").exec(); 
+        const products = await Product.find({}).populate(["options" , "promotions"]).exec(); 
         res.send({
             products
         });

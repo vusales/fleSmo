@@ -43,7 +43,12 @@ const getHomePageContent = async (req, res) => {
 
 const sendPagesIntro = async (req, res) => {
     // createPagesIntro(); 
-    const pagesIntro = await PagesIntroModel.find({}).populate("pageContent.characteristicCards").exec();
+    const pagesIntro = await PagesIntroModel.find({}).populate({
+        path: "pageContent" ,
+        populate : {
+            path : "characteristicCards"
+        }
+    }).exec();
 
     res.send({
         data : {

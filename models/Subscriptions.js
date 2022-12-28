@@ -19,7 +19,7 @@ var SubscriptionTypes = new mongoose.Schema({
     title: String , 
     image: String , 
     promotionMethod: String , 
-    servicess: [SubscriptionServicess] , 
+    servicess: [{ type: mongoose.Schema.Types.ObjectId , ref: "SubscriptionServicess" }] , 
 });
 
 var SubscriptionsMainSchema = new mongoose.Schema({

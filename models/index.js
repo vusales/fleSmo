@@ -20,6 +20,7 @@ const {
 const {
     PagesIntroModel , 
     CharacteristicCardsModel ,
+    PageContentModel , 
 } = require("./PagesIntro"); 
 const  {
     ProductOptions, 
@@ -49,6 +50,17 @@ const localProvider = {
     }
 };
 
+const mimeTypess = [
+    "image/jpeg",
+    "image/png",
+    "image/webp", 
+    "image/svg",
+]
+
+const ChangeFieldName = (record, filename) => {
+    return (`/${filename}`);
+}
+
 const dBase = [
     {
         resource: Banner,
@@ -64,7 +76,10 @@ const dBase = [
                     type: 'string',
                 }, 
                 description: {
-                    type: 'string',
+                    type: 'textarea',
+                    props: {
+                    rows: 20,
+                    },
                 } , 
                 buttons:{
                     type: 'array',
@@ -85,16 +100,9 @@ const dBase = [
                     filename: 'uploadedFile.filename',
                     file: 'uploadFile',
                 },
-                uploadPath: (record, filename) => {
-                    return (`/${filename}`);
-                },
+                uploadPath: (record, filename)=>ChangeFieldName(record, filename),
                 validation: {
-                    mimeTypes: [
-                        "image/jpeg",
-                        "image/png",
-                        "image/webp", 
-                        "image/svg",
-                    ]
+                    mimeTypes: mimeTypess , 
                 },
             }),
         ] , 
@@ -110,30 +118,33 @@ const dBase = [
                     type: 'string',
                 }, 
                 description:{
-                    type: 'string',
+                    type: 'textarea',
+                    props: {
+                    rows: 50,
+                    },
                 }, 
             }
         },
-        features: [
-            uploadFeature({
-                provider: { local: localProvider },
-                properties: {
-                    key: "icon" , // to this db field feature will safe S3 key,
-                    //mimeType: "mimeType", // this property is important because allows to have previews,
-                },
-                uploadPath: (record, filename) => (
-                    `/${filename}`
-                ),
-                validation: {
-                    mimeTypes: [
-                        "image/jpeg",
-                        "image/png",
-                        "image/webp", 
-                        "image/svg",
-                    ]
-                },
-            }),
-        ] , 
+        // features: [
+        //     uploadFeature({
+        //         provider: { local: localProvider },
+        //         properties: {
+        //             key: "icon" , // to this db field feature will safe S3 key,
+        //             //mimeType: "mimeType", // this property is important because allows to have previews,
+        //         },
+        //         uploadPath: (record, filename) => (
+        //             `/${filename}`
+        //         ),
+        //         validation: {
+        //             mimeTypes: [
+        //                 "image/jpeg",
+        //                 "image/png",
+        //                 "image/webp", 
+        //                 "image/svg",
+        //             ]
+        //         },
+        //     }),
+        // ] , 
     } , 
     {
         resource: WhyChooseUs ,
@@ -146,7 +157,10 @@ const dBase = [
                     type: "string" , 
                 } , 
                 description: {
-                    type: "string" , 
+                    type: 'textarea',
+                    props: {
+                    rows: 50,
+                    }, 
                 } , 
             }
         },
@@ -162,7 +176,10 @@ const dBase = [
                     type: "number" , 
                 } , 
                 description: {
-                    type: "string" , 
+                    type: 'textarea',
+                    props: {
+                    rows: 50,
+                    }, 
                 } ,  
             }
         },
@@ -171,8 +188,9 @@ const dBase = [
         resource: Category ,
         options: {
             properties: {
-                icon: {
-                    type: "string" , 
+                image: {
+                    type: "string" ,
+                    isVisible: false ,  
                 }, 
                 categoryName: {
                     type: "string" , 
@@ -189,19 +207,12 @@ const dBase = [
             uploadFeature({
                 provider: { local: localProvider },
                 properties: {
-                    key: "icon" , // to this db field feature will safe S3 key,
+                    key: "image" , // to this db field feature will safe S3 key,
                     //mimeType: "mimeType", // this property is important because allows to have previews,
                 },
-                uploadPath: (record, filename) => (
-                    `/${filename}`
-                ),
+                uploadPath: (record, filename)=>ChangeFieldName(record, filename),
                 validation: {
-                    mimeTypes: [
-                        "image/jpeg",
-                        "image/png",
-                        "image/webp", 
-                        "image/svg",
-                    ]
+                    mimeTypes: mimeTypess , 
                 },
             }),
         ],
@@ -210,8 +221,9 @@ const dBase = [
         resource: SubCatgory ,
         options: {
             properties: {
-                icon: {
+                image: {
                     type: "string" , 
+                    isVisible: "false" , 
                 }, 
                 categoryName: {
                     type: "string" , 
@@ -225,19 +237,12 @@ const dBase = [
             uploadFeature({
                 provider: { local: localProvider },
                 properties: {
-                    key: "icon" , // to this db field feature will safe S3 key,
+                    key: "image" , // to this db field feature will safe S3 key,
                     //mimeType: "mimeType", // this property is important because allows to have previews,
                 },
-                uploadPath: (record, filename) => (
-                    `/${filename}`
-                ),
+                uploadPath: (record, filename)=>ChangeFieldName(record, filename),
                 validation: {
-                    mimeTypes: [
-                        "image/jpeg",
-                        "image/png",
-                        "image/webp", 
-                        "image/svg",
-                    ]
+                    mimeTypes: mimeTypess , 
                 },
             }),
         ],
@@ -345,56 +350,62 @@ const dBase = [
                 icon: {
                     type: "string" ,  
                 }, 
-                title: {
+                description: {
                     type: "string" ,   
                 },
             }
-        } ,
-        features: [
-            uploadFeature({
-                provider: { local: localProvider },
-                properties: {
-                    key: 'icon',
-                },
-                uploadPath: (record, filename) => {
-                    return (`/${filename}`);
-                },
-                validation: {
-                    mimeTypes: [
-                        "image/jpeg",
-                        "image/png",
-                        "image/webp", 
-                        "image/svg",
-                    ]
-                },
-            }),
-        ] , 
+        },
     } , 
     {
         resource: PagesIntroModel ,
         options: {
             properties: {
-                pageName: String , 
+                pageName: {
+                    type: "string" ,   
+                } , 
                 pageContent : {
-                    intro: {
-                      type: "string" ,   
-                    } , 
-                    title: {
-                      type: "string" ,   
-                    } , 
-                    bannerDescription : {
-                      type: "string" ,   
-                    } , 
-                    image: {
-                      type: "string" ,   
-                    } , 
-                    characteristicCards :  {
-                        type: "array" , 
-                        populated: "CharacteristicCards" ,
-                    }
-                } 
+                    type:"string" , 
+                    populated: "PageContent"
+                }
             }
-        }
+        }, 
+    } ,
+    {
+        resource: PageContentModel,
+        options: {
+            id:"PageContent" , 
+            properties: {
+                intro: {
+                    type: "string" ,   
+                } , 
+                title: {
+                    type: "string" ,   
+                } , 
+                bannerDescription : {
+                    type: "string" ,   
+                } , 
+                image: {
+                    type: "string" , 
+                    isVisible: false ,   
+                } , 
+                characteristicCards :  {
+                    type: "array" , 
+                    populated: "CharacteristicCards" ,
+                }
+            } 
+        } , 
+        features: [
+            uploadFeature({
+                provider: { local: localProvider },
+                properties: {
+                    key: 'image',
+                },
+                uploadPath: (record, filename)=>ChangeFieldName(record, filename),
+                validation: {
+                    mimeTypes: mimeTypess , 
+                },
+            }),
+        ] , 
     } , 
     {
         resource: ProductFeature ,
@@ -408,7 +419,10 @@ const dBase = [
                     type: "string" ,  
                 }, 
                 description : {
-                    type: "string" ,  
+                    type: 'textarea',
+                    props: {
+                    rows: 50,
+                    },
                 }
             }
         }, 
@@ -418,16 +432,9 @@ const dBase = [
                 properties: {
                     key: 'icon',
                 },
-                uploadPath: (record, filename) => {
-                    return (`/${filename}`);
-                },
+                uploadPath: (record, filename)=>ChangeFieldName(record, filename),
                 validation: {
-                    mimeTypes: [
-                        "image/jpeg",
-                        "image/png",
-                        "image/webp", 
-                        "image/svg",
-                    ]
+                    mimeTypes: mimeTypess , 
                 },
             }),
         ] , 
@@ -476,16 +483,9 @@ const dBase = [
                 properties: {
                     key: 'icon',
                 },
-                uploadPath: (record, filename) => {
-                    return (`/${filename}`);
-                },
+                uploadPath: (record, filename)=>ChangeFieldName(record, filename),
                 validation: {
-                    mimeTypes: [
-                        "image/jpeg",
-                        "image/png",
-                        "image/webp", 
-                        "image/svg",
-                    ]
+                    mimeTypes: mimeTypess , 
                 },
             }),
         ] , 
@@ -516,6 +516,7 @@ const dBase = [
             properties: {
                 image: {
                     type: "string" ,
+                    isVisible: false ,
                 }, 
                 title:  {
                     type: "string" ,
@@ -527,7 +528,10 @@ const dBase = [
                     type : "number" ,
                 },
                 description:{
-                    type: "string" ,
+                    type: 'textarea',
+                    props: {
+                      rows: 100,
+                    },
                 }, 
                 link:{
                     type: "string" ,
@@ -566,23 +570,15 @@ const dBase = [
             uploadFeature({
                 provider: { local: localProvider },
                 properties: {
-                    key: 'icon',
+                    key: 'image',
                 },
-                uploadPath: (record, filename) => {
-                    return (`/${filename}`);
-                },
+                uploadPath: (record, filename)=> ChangeFieldName(record, filename),
                 validation: {
-                    mimeTypes: [
-                        "image/jpeg",
-                        "image/png",
-                        "image/webp", 
-                        "image/svg",
-                    ]
+                    mimeTypes: mimeTypess , 
                 },
             }),
         ] , 
     } , 
-
     {
         resource: ServicessValuesModel ,
         options: {
@@ -649,18 +645,11 @@ const dBase = [
             uploadFeature({
                 provider: { local: localProvider },
                 properties: {
-                    key: 'icon',
+                    key: 'image',
                 },
-                uploadPath: (record, filename) => {
-                    return (`/${filename}`);
-                },
+                uploadPath: (record, filename)=>ChangeFieldName(record, filename),
                 validation: {
-                    mimeTypes: [
-                        "image/jpeg",
-                        "image/png",
-                        "image/webp", 
-                        "image/svg",
-                    ]
+                    mimeTypes: mimeTypess , 
                 },
             }),
         ] , 
@@ -680,7 +669,10 @@ const dBase = [
                     type: "string"
                 } ,  
                 description: {
-                    type: "string"
+                    type: 'textarea',
+                    props: {
+                      rows: 50,
+                    },
                 } , 
                 subscriptions : {
                     type:"array" ,  
@@ -690,7 +682,6 @@ const dBase = [
         }, 
     } , 
     
-
 ]
 
 module.exports =  dBase ;
