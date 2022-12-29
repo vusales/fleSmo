@@ -78,7 +78,7 @@ const dBase = [
                 description: {
                     type: 'textarea',
                     props: {
-                    rows: 20,
+                    rows: 10,
                     },
                 } , 
                 buttons:{
@@ -113,6 +113,7 @@ const dBase = [
             properties: {
                 icon:{
                     type: 'string',
+                    description: "Use only material/ui icons name or keep empty",
                 }, 
                 title:{
                     type: 'string',
@@ -120,7 +121,7 @@ const dBase = [
                 description:{
                     type: 'textarea',
                     props: {
-                    rows: 50,
+                    rows: 10,
                     },
                 }, 
             }
@@ -152,6 +153,7 @@ const dBase = [
             properties: {
                 icon: {
                     type: "string" , 
+                    description: "Use only material/ui icons name or keep empty",
                 } , 
                 title: {
                     type: "string" , 
@@ -159,7 +161,7 @@ const dBase = [
                 description: {
                     type: 'textarea',
                     props: {
-                    rows: 50,
+                    rows: 10,
                     }, 
                 } , 
             }
@@ -171,6 +173,7 @@ const dBase = [
             properties: {
                 icon: {
                     type: "string" , 
+                    description: "Use only material/ui icons name or keep empty",
                 } , 
                 amount: {
                     type: "number" , 
@@ -178,7 +181,7 @@ const dBase = [
                 description: {
                     type: 'textarea',
                     props: {
-                    rows: 50,
+                    rows: 10,
                     }, 
                 } ,  
             }
@@ -349,6 +352,7 @@ const dBase = [
             properties: { 
                 icon: {
                     type: "string" ,  
+                    description: "Use only material/ui icons name or keep empty",
                 }, 
                 description: {
                     type: "string" ,   
@@ -362,6 +366,13 @@ const dBase = [
             properties: {
                 pageName: {
                     type: "string" ,   
+                    availableValues: [
+                        { value: '1', label: 'Cheap Services' },
+                        { value: '2', label: 'User Choice' },
+                        { value: '3', label: 'SMM for business' },
+                        { value: '4', label: 'Big brands' },
+                    ],
+                    description: "Chose from available Values"
                 } , 
                 pageContent : {
                     type:"string" , 
@@ -414,6 +425,7 @@ const dBase = [
             properties: {
                 icon : {
                     type: "string" ,  
+                    description: "Use only material/ui icons name or keep empty",
                 }, 
                 title: {
                     type: "string" ,  
@@ -421,23 +433,23 @@ const dBase = [
                 description : {
                     type: 'textarea',
                     props: {
-                    rows: 50,
+                    rows: 10,
                     },
                 }
             }
         }, 
-        features: [
-            uploadFeature({
-                provider: { local: localProvider },
-                properties: {
-                    key: 'icon',
-                },
-                uploadPath: (record, filename)=>ChangeFieldName(record, filename),
-                validation: {
-                    mimeTypes: mimeTypess , 
-                },
-            }),
-        ] , 
+        // features: [
+        //     uploadFeature({
+        //         provider: { local: localProvider },
+        //         properties: {
+        //             key: 'icon',
+        //         },
+        //         uploadPath: (record, filename)=>ChangeFieldName(record, filename),
+        //         validation: {
+        //             mimeTypes: mimeTypess , 
+        //         },
+        //     }),
+        // ] , 
     } , 
     {
         resource: ProductOptions ,
@@ -477,18 +489,6 @@ const dBase = [
                 },
             }
         }, 
-        features: [
-            uploadFeature({
-                provider: { local: localProvider },
-                properties: {
-                    key: 'icon',
-                },
-                uploadPath: (record, filename)=>ChangeFieldName(record, filename),
-                validation: {
-                    mimeTypes: mimeTypess , 
-                },
-            }),
-        ] , 
     } , 
     {
         resource: Promotion ,
@@ -530,7 +530,7 @@ const dBase = [
                 description:{
                     type: 'textarea',
                     props: {
-                      rows: 100,
+                      rows: 10,
                     },
                 }, 
                 link:{
@@ -623,7 +623,9 @@ const dBase = [
             id: "SubscriptionTypes" , 
             properties: {
                 icon: {
-                    type:"string" , 
+                    type:"string" ,
+                    description: "Use only material/ui icons name or keep empty",
+
                 } , 
                 title: {
                     type:"string" , 
@@ -671,7 +673,7 @@ const dBase = [
                 description: {
                     type: 'textarea',
                     props: {
-                      rows: 50,
+                      rows: 10,
                     },
                 } , 
                 subscriptions : {
@@ -680,8 +682,7 @@ const dBase = [
                 } ,
             }
         }, 
-    } , 
-    
+    } ,
 ]
 
 module.exports =  dBase ;
