@@ -12,7 +12,6 @@ const {
 var path = require('path');
 require('dotenv').config();
 const {beforeHook , afterHook } = require("./adminHooks/index"); 
-
 const {
     Order , 
     SelectedServicess , 
@@ -42,6 +41,14 @@ const {
     UserSchema , 
 } =  require("./User") ; 
 
+const {
+    usersNavigation , 
+    staticInfoAboutPageNavigation , 
+    categoryNavigation , 
+    productNavigation , 
+    subscriptionNavigation , 
+  } =  require("./modelNavigations");
+
 
 const localProvider = {
     bucket: 'public/images' , 
@@ -65,6 +72,7 @@ const dBase = [
     {
         resource: Banner,
         options: {
+            navigation: staticInfoAboutPageNavigation ,
             properties: {
                 intro:{
                     type: 'string',
@@ -110,6 +118,7 @@ const dBase = [
     {
         resource: InfoCards,
         options: {
+            navigation: staticInfoAboutPageNavigation ,
             properties: {
                 icon:{
                     type: 'string',
@@ -150,6 +159,7 @@ const dBase = [
     {
         resource: WhyChooseUs ,
         options: {
+            navigation: staticInfoAboutPageNavigation ,
             properties: {
                 icon: {
                     type: "string" , 
@@ -170,6 +180,7 @@ const dBase = [
     {
         resource: SiteStatistic ,
         options: {
+            navigation: staticInfoAboutPageNavigation ,
             properties: {
                 icon: {
                     type: "string" , 
@@ -190,6 +201,7 @@ const dBase = [
     {
         resource: Category ,
         options: {
+            navigation: categoryNavigation ,
             properties: {
                 image: {
                     type: "string" ,
@@ -223,6 +235,7 @@ const dBase = [
     {
         resource: SubCatgory ,
         options: {
+            navigation: categoryNavigation ,
             properties: {
                 image: {
                     type: "string" , 
@@ -253,6 +266,7 @@ const dBase = [
     {
         resource: UserSchema ,
         options: {
+            navigation: usersNavigation ,
             properties: {
                 name: {
                     type: "string" , 
@@ -288,6 +302,7 @@ const dBase = [
         resource: Order ,
         options: {
             id: "Order" ,
+            navigation: usersNavigation ,
             properties: {
                 token: {
                     type: "string" , 
@@ -329,6 +344,7 @@ const dBase = [
         resource: SelectedServicess ,
         options: {
             id: "SelectedServicess" ,
+            navigation: staticInfoAboutPageNavigation ,
             properties: {
                 service_id: {
                     type: "string" ,  
@@ -349,6 +365,7 @@ const dBase = [
         resource: CharacteristicCardsModel ,
         options: {
             id: "CharacteristicCards" ,
+            navigation: staticInfoAboutPageNavigation ,
             properties: { 
                 icon: {
                     type: "string" ,  
@@ -363,6 +380,7 @@ const dBase = [
     {
         resource: PagesIntroModel ,
         options: {
+            navigation: staticInfoAboutPageNavigation ,
             properties: {
                 pageName: {
                     type: "string" ,   
@@ -385,6 +403,7 @@ const dBase = [
         resource: PageContentModel,
         options: {
             id:"PageContent" , 
+            navigation: staticInfoAboutPageNavigation ,
             properties: {
                 intro: {
                     type: "string" ,   
@@ -422,6 +441,7 @@ const dBase = [
         resource: ProductFeature ,
         options: {
             id: "ProductFeature" , 
+            navigation: productNavigation ,
             properties: {
                 icon : {
                     type: "string" ,  
@@ -455,6 +475,7 @@ const dBase = [
         resource: ProductOptions ,
         options: {
             id: "ProductOptions" , 
+            navigation: productNavigation ,
             properties: {
                 title: {
                     type: "string" , 
@@ -494,6 +515,7 @@ const dBase = [
         resource: Promotion ,
         options: {
             id: "Promotion" , 
+            navigation: productNavigation ,
             properties: {
                 pageName: {
                     type: "string" ,
@@ -513,6 +535,7 @@ const dBase = [
         resource: Product ,
         options: {
             id: "Product" , 
+            navigation: productNavigation ,
             properties: {
                 image: {
                     type: "string" ,
@@ -583,6 +606,7 @@ const dBase = [
         resource: ServicessValuesModel ,
         options: {
             id: "ServicessValues" , 
+            navigation: subscriptionNavigation ,
             properties: {
                 title: {
                     type: "string" ,
@@ -606,6 +630,7 @@ const dBase = [
         resource: SubscriptionServicessModel ,
         options: {
             id: "SubscriptionServicess" , 
+            navigation: subscriptionNavigation ,
             properties: {
                 service_title:{
                     type: "string" ,
@@ -621,6 +646,7 @@ const dBase = [
         resource: SubscriptionTypesModel ,
         options: {
             id: "SubscriptionTypes" , 
+            navigation: subscriptionNavigation ,
             properties: {
                 icon: {
                     type:"string" ,
@@ -660,6 +686,7 @@ const dBase = [
         resource: SubscriptionsMainSchemaModel ,
         options: {
             id: "SubscriptionsMainSchemaModel" , 
+            navigation: subscriptionNavigation ,
             properties: {
                 price : {
                     type: "number"
